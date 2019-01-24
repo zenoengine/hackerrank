@@ -4,25 +4,39 @@ using namespace std;
 
 // Complete the hourglassSum function below.
 int hourglassSum(vector<vector<int>> arr) {
+    int sumArr[16] = { 0, };
+	for (int i = 0; i < 16; i++)
+	{
+		int rowIndex = i % 4;
+		int colIndex = i / 4;
 
-    int ret = 0;
-    for(int i = 0; i < 4; i++)
-    {
-        for(int j = 0; j < 4; j++)
-        {
-            int sum =
-            arr[i][j] + arr[i][j+1] + arr[i][j+2]
-                      + arr[i+1][j+1] +
-            arr[i+2][j]+ arr[i+2][j+1] + arr[i+2][j+2];
-            
-            if (sum > ret)
-            {
-                ret = sum;
-            }
-        }
-    }
+        sumArr[i] = 0;
+        
+		//Top
+		sumArr[i] += arr[rowIndex][colIndex];
+		sumArr[i] += arr[rowIndex][colIndex + 1];
+		sumArr[i] += arr[rowIndex][colIndex + 2];
 
-    return ret;
+		//Middle
+		sumArr[i] += arr[rowIndex + 1][colIndex + 1];
+
+		//Bot
+		sumArr[i] += arr[rowIndex + 2][colIndex];
+		sumArr[i] += arr[rowIndex + 2][colIndex + 1];
+		sumArr[i] += arr[rowIndex + 2][colIndex + 2];
+	}
+
+	int max = sumArr[0];
+	for (int i = 0; i < 16; i++)
+	{
+        cout << sumArr[i] << endl;
+		if (max < sumArr[i])
+		{
+			max = sumArr[i];
+		}
+	}
+
+	return max;
 }
 
 int main()
