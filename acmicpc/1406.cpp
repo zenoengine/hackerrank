@@ -1,78 +1,81 @@
 #include <iostream>
-#include <vector>
 #include <string>
+#include <stack>
 
 using namespace std;
 
-
 int main()
 {
-	std::ios_base::sync_with_stdio();
-
-	string text;
-	cin >> text;
-
-	vector<char> vec;
-	for (int i = 0; i < text.length(); i++)
+	stack<char> left;
+	stack<char> right;
+	std::string str;
+	cin >> str;
+	for(auto value : str)
 	{
-		vec.push_back(text[i]);
+		left.push(value);
 	}
 
-	int n = 0;
-	cin >> n;
+	int N = 0;
+	cin >> N;
 
-	auto cursor = vec.end();
-	char command = '\0';
-	while (n--)
+	for(int i = 0 ; i < N; )
 	{
-		cin >> command;
-		switch (command)
+		char cmd = getchar();
+		if(cmd != '\n' && cmd != EOF)
+		{
+			i++;
+		}
+
+		switch(cmd)
 		{
 		case 'L':
 		{
-			if (cursor != vec.begin())
+			if (!left.empty())
 			{
-				cursor--;
+				right.push(left.top());
+				left.pop();
 			}
 		}
-			break;
+		break;
 		case 'D':
 		{
-			if (cursor != vec.end())
+			if (!right.empty())
 			{
-				cursor++;
+				left.push(right.top());
+				right.pop();
 			}
 		}
-			break;
-		case 'P':
-		{
-			char c;
-			cin >> c;
-			cursor = vec.insert(cursor, c);
-			cursor++;
-		}
-			break;
+		break;
 		case 'B':
 		{
-			if (!vec.empty() && cursor != vec.begin())
+			if (!left.empty())
 			{
-				auto deleteIter = cursor - 1;
-				cursor = vec.erase(deleteIter);
+				left.pop();
 			}
 		}
-			break;
-		default:
-			break;
+		break;
+		case 'P':
+		{
+			char c = getchar();
+			c = getchar();
+
+			left.push(c);
+		}
+		break;
 		}
 	}
 
-	text.clear();
-	for (auto c : vec)
+	while (!left.empty())
 	{
-		cout << c;
+		right.push(left.top());
+		left.pop();
 	}
-
-	cout << text;
+	
+	while (!right.empty())
+	{
+		cout << right.top();
+		right.pop();
+	}
 
 	return 0;
 }
