@@ -7,6 +7,10 @@ public:
         v[1] = true;
 
         for(int i = 2; i < n; i++) {
+            if (v[i] == true) {
+                continue;
+            }
+
             for(int j = 2; j*i < n; j++) {
                 v[i*j] = true;
             }
