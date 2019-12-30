@@ -6,7 +6,7 @@ public:
         v[0] = true;
         v[1] = true;
 
-        for(int i = 2; i < n; i++) {
+        for(int i = 2; i*i <= n; i++) {
             if (v[i] == true) {
                 continue;
             }
